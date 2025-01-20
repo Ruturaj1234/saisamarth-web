@@ -1,8 +1,8 @@
-import React, { useState } from "react";
-import { Route, Routes } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { Route, Routes, useLocation } from "react-router-dom";
 import "./App.css";
 import Footer from "./component/Footer";
-import Navbar from "./component/navbar";
+import Navbar from "./component/Navbar";
 import Home from "./page/Home";
 import ContactUs from "./page/ContactUs";
 import Client from "./page/Client";
@@ -18,8 +18,14 @@ import FoodGradeCoating from "./page/Food";
 import FlexibleSealants from "./page/Flexible";
 import ExteriorWallSystem from "./page/Durable";
 
-function App() {
+const App = () => {
   const [showChatbot, setShowChatbot] = useState(false); // Chatbot visibility state
+  const location = useLocation();
+
+  // Scroll to top when route changes
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [location.pathname]);
 
   const toggleChatbot = () => {
     setShowChatbot(!showChatbot); // Toggle chatbot visibility
@@ -46,63 +52,32 @@ function App() {
       </Routes>
       <Footer />
 
-      {/* Chatbot toggle icon with image */}
+      {/* Chatbot toggle icon */}
       <div
-        className="position-fixed"
-        style={{
-          bottom: "20px",
-          right: "20px",
-          zIndex: 1000,
-          cursor: "pointer",
-          backgroundColor: "white",
-          borderRadius: "50%",
-          width: "60px",
-          height: "60px",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          boxShadow: "0 4px 8px rgba(0, 0, 0, 0.2)",
-        }}
+        className="position-fixed chatbot-icon"
         onClick={toggleChatbot}
         title={showChatbot ? "Close Chatbot" : "Open Chatbot"}
       >
         <img
           src="https://static.vecteezy.com/system/resources/thumbnails/025/271/424/small_2x/robot-chatbot-generative-ai-free-png.png"
           alt="Chatbot"
-          style={{
-            width: "40px",
-            height: "40px",
-            borderRadius: "50%",
-          }}
         />
       </div>
 
       {/* Chatbot iframe */}
       {showChatbot && (
-        <div
-          className="position-fixed"
-          style={{
-            bottom: "90px",
-            right: "20px",
-            width: "350px",
-            height: "500px",
-            boxShadow: "0 4px 8px rgba(0, 0, 0, 0.2)",
-            zIndex: 1000,
-            backgroundColor: "white",
-            borderRadius: "10px",
-            overflow: "hidden",
-          }}
-        >
+        <div className="position-fixed chatbot-container">
           <iframe
             src="https://www.chatbase.co/chatbot-iframe/TpoSPHBgtKbBIhhTAmIDQ"
             width="100%"
             height="100%"
             title="Chatbot"
+            style={{ border: "none" }}
           ></iframe>
         </div>
       )}
     </div>
   );
-}
+};
 
 export default App;
