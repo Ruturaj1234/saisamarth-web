@@ -1,10 +1,12 @@
 /* eslint-disable no-unused-vars */
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import "../style/Navbar.css";
 import logo from "../assets/logo.jpg";
 
 const Navbar = () => {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
   useEffect(() => {
     const handleScroll = () => {
       const navbar = document.querySelector(".navbar");
@@ -18,6 +20,15 @@ const Navbar = () => {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  const handleToggle = () => {
+    setIsMenuOpen(!isMenuOpen); // Toggle the menu state
+  };
+
+  const handleMenuItemClick = () => {
+    setIsMenuOpen(false); // Close the menu when a menu item is clicked
+  };
+
   return (
     <nav className="navbar navbar-expand-lg text-light py-3 border-bottom border-3 border-warning animate-navbar">
       <div className="container-fluid d-flex align-items-center justify-content-between">
@@ -33,24 +44,23 @@ const Navbar = () => {
         <button
           className="navbar-toggler bg-light"
           type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#navbarSupportedContent"
-          aria-controls="navbarSupportedContent"
-          aria-expanded="false"
+          onClick={handleToggle}
+          aria-expanded={isMenuOpen}
           aria-label="Toggle navigation"
         >
           <span className="navbar-toggler-icon"></span>
         </button>
         <div
-          className="collapse navbar-collapse justify-content-end"
-          id="navbarSupportedContent"
+          className={`collapse navbar-collapse justify-content-end ${
+            isMenuOpen ? "show" : ""
+          }`}
         >
           <ul className="navbar-nav mb-2 mb-lg-0">
             <li className="nav-item">
               <Link
                 className="nav-link text-light text-uppercase fw-bold mx-2 hover-underline-animation"
-                aria-current="page"
                 to="/"
+                onClick={handleMenuItemClick}
               >
                 Home
               </Link>
@@ -59,6 +69,7 @@ const Navbar = () => {
               <Link
                 className="nav-link text-light text-uppercase fw-bold mx-2 hover-underline-animation"
                 to="/aboutus"
+                onClick={handleMenuItemClick}
               >
                 About Us
               </Link>
@@ -67,6 +78,7 @@ const Navbar = () => {
               <Link
                 className="nav-link text-light text-uppercase fw-bold mx-2 hover-underline-animation"
                 to="/contactus"
+                onClick={handleMenuItemClick}
               >
                 Contact Us
               </Link>
@@ -75,6 +87,7 @@ const Navbar = () => {
               <Link
                 className="nav-link text-light text-uppercase fw-bold mx-2 hover-underline-animation"
                 to="/product"
+                onClick={handleMenuItemClick}
               >
                 Product
               </Link>
@@ -83,6 +96,7 @@ const Navbar = () => {
               <Link
                 className="nav-link text-light text-uppercase fw-bold mx-2 hover-underline-animation"
                 to="/application"
+                onClick={handleMenuItemClick}
               >
                 Application
               </Link>
@@ -91,6 +105,7 @@ const Navbar = () => {
               <Link
                 className="nav-link text-light text-uppercase fw-bold mx-2 hover-underline-animation"
                 to="/clients"
+                onClick={handleMenuItemClick}
               >
                 Clients
               </Link>
@@ -103,3 +118,4 @@ const Navbar = () => {
 };
 
 export default Navbar;
+
